@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mythia® | Assistline v11.0 Focus</title>
+    <title>Mythia® | Assistline v14.0</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
         
@@ -12,17 +12,16 @@
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 100%); 
             display: flex; align-items: center; justify-content: center;
-            overflow: auto; color: #0f172a;
+            overflow: hidden; color: #0f172a;
         }
 
-        /* Holografik Arka Plan */
         #bg-canvas {
             position: fixed; top: 0; left: 0;
             width: 100%; height: 100%; z-index: 1;
             pointer-events: none;
         }
 
-        .fade-in-up { opacity: 0; transform: translateY(25px); animation: fadeInUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .fade-in-up { opacity: 0; transform: translateY(20px); animation: fadeInUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .delay-1 { animation-delay: 0.1s; }
         .delay-2 { animation-delay: 0.2s; }
         .delay-3 { animation-delay: 0.3s; }
@@ -31,7 +30,7 @@
 
         @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-        /* Çiftli Buton Sistemi */
+        /* Sabit ve Akıllı Navigasyon */
         .nav-container {
             position: fixed; top: 25px; right: 25px; z-index: 100;
             display: flex; flex-direction: column; gap: 12px;
@@ -40,11 +39,11 @@
 
         .sys-btn {
             position: relative; overflow: hidden;
-            background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(12px);
             color: #0f172a; padding: 12px 24px; border-radius: 16px;
             text-decoration: none; font-weight: 800; font-size: 11px;
             border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
             text-transform: uppercase; letter-spacing: 1.5px;
             text-align: center; display: flex; align-items: center; justify-content: center;
@@ -61,9 +60,9 @@
             background: rgba(255, 255, 255, 0.9); transform: translateY(-3px); 
             box-shadow: 0 10px 25px rgba(14, 165, 233, 0.15); border-color: #0ea5e9; color: #0ea5e9;
         }
-        .sys-btn:hover::before { left: 150%; transition: all 0.5s ease; }
+        .sys-btn:hover::before { left: 150%; }
 
-        /* Merkez Sorgu Kartı - Liquid Glass Efekti */
+        /* Merkez Sorgu Kartı */
         .glass-card {
             position: relative; z-index: 10; overflow: hidden;
             background: rgba(255, 255, 255, 0.65);
@@ -72,83 +71,76 @@
             width: 85%; max-width: 380px; 
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.9);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
             margin: 40px 0; transition: all 0.5s ease;
         }
 
         .glass-card::before {
             content: ''; position: absolute; top: 0; left: -150%;
             width: 60%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.8), transparent);
-            transform: skewX(-25deg); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: none; z-index: 15;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.7), transparent);
+            transform: skewX(-25deg); transition: all 0.8s ease; pointer-events: none; z-index: 15;
         }
-        .glass-card:hover::before { left: 150%; transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-        .glass-card:hover { transform: translateY(-2px); box-shadow: 0 35px 60px -15px rgba(14, 165, 233, 0.15); }
+        .glass-card:hover::before { left: 150%; }
 
         .logo-box { margin-bottom: 25px; position: relative; z-index: 20; }
         .logo-box img { max-width: 170px; height: auto; mix-blend-mode: multiply; }
 
-        h1 { font-size: 22px; font-weight: 800; margin: 0; letter-spacing: -0.5px; color: #0f172a; position: relative; z-index: 20; }
-        .desc { color: #475569; font-size: 13px; margin: 8px 0 25px 0; line-height: 1.5; font-weight: 600; position: relative; z-index: 20; }
+        h1 { font-size: 21px; font-weight: 800; margin: 0; letter-spacing: -0.5px; color: #0f172a; position: relative; z-index: 20; }
+        .desc { color: #475569; font-size: 12px; margin: 8px 0 25px 0; line-height: 1.5; font-weight: 600; position: relative; z-index: 20; }
 
-        .input-wrapper { position: relative; z-index: 20; margin-bottom: 18px; }
         input {
             width: 100%; padding: 18px; background: rgba(255, 255, 255, 0.9);
             border: 2px solid #e2e8f0; border-radius: 18px;
             color: #0f172a; font-size: 14px; text-align: center; outline: none;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-sizing: border-box;
-            font-weight: 600; box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
+            transition: all 0.4s ease; box-sizing: border-box; margin-bottom: 18px;
+            font-weight: 600;
         }
-        input:hover { border-color: #7dd3fc; box-shadow: 0 0 15px rgba(56, 189, 248, 0.3), inset 0 2px 5px rgba(0,0,0,0.02); }
-        input:focus { border-color: #0ea5e9; background: #ffffff; box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15); transform: scale(1.02); }
+        input:focus { border-color: #0ea5e9; background: #ffffff; box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1); }
 
         button {
             width: 100%; padding: 18px; background: #0f172a; color: #ffffff;
             border: none; border-radius: 18px; font-weight: 800; font-size: 14px;
             letter-spacing: 1.5px; cursor: pointer; transition: 0.3s; margin-bottom: 25px;
-            box-shadow: 0 8px 15px -5px rgba(15, 23, 42, 0.3); position: relative; z-index: 20;
-            overflow: hidden;
+            position: relative; z-index: 20;
         }
-        
-        button::before {
-            content: ''; position: absolute; top: 0; left: -100%;
-            width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
-            transform: skewX(-25deg); transition: all 0.6s ease;
-        }
-        button:hover::before { left: 150%; }
-        button:hover { background: #0ea5e9; transform: translateY(-3px); box-shadow: 0 12px 20px rgba(14, 165, 233, 0.25); }
+        button:hover { background: #0ea5e9; transform: translateY(-2px); }
 
         #display {
             padding: 22px; border-radius: 16px; 
             background: rgba(255, 255, 255, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.8); 
-            font-size: 18px; font-weight: 800;
-            color: #64748b; min-height: 25px; display: flex; align-items: center; justify-content: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; z-index: 20;
+            font-size: 17px; font-weight: 800;
+            color: #94a3b8; min-height: 25px; display: flex; align-items: center; justify-content: center;
         }
 
         .active-success {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important; 
             color: white !important; border: none !important;
             box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3) !important; 
-            animation: successPop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        @keyframes successPop { 0% { transform: scale(0.95); opacity: 0; } 50% { transform: scale(1.03); } 100% { transform: scale(1); opacity: 1; } }
 
-        .err-msg { color: #e11d48; font-size: 14px; font-weight: 700; }
-
+        /* KURUMSAL FOOTER GÜNCELLEMESİ (TAM VE KALIN YAZI) */
         .footer-elite { margin-top: 30px; font-size: 10px; color: #64748b; line-height: 1.8; position: relative; z-index: 20; }
-        .v-badge { color: #0ea5e9; font-weight: 800; letter-spacing: 1px; display: block; margin-bottom: 4px; font-size: 11px; }
-        .footer-elite strong { color: #0f172a; font-weight: 800; }
+        .v-badge { color: #0ea5e9; font-weight: 800; letter-spacing: 1px; display: block; margin-bottom: 4px; }
+        .footer-elite strong { color: #0f172a; font-weight: 800; } /* Mythia Selimcan yazısını ekstra kalınlaştırır */
+
+        @media (max-width: 768px) {
+            .nav-container {
+                top: auto; bottom: 20px; right: 50%; transform: translateX(50%);
+                flex-direction: row; width: 90%; gap: 8px;
+            }
+            .sys-btn { flex: 1; padding: 14px 5px; font-size: 9px; }
+            .glass-card { margin-bottom: 80px; }
+        }
     </style>
 </head>
 <body>
     <canvas id="bg-canvas"></canvas>
     
     <div class="nav-container fade-in-up delay-5">
-        <a href="https://crm.assistline.com.tr/Account/Login?ReturnUrl=%2F" target="assistline_crm" class="sys-btn">CRM SİSTEMİ ➜</a>
-        <a href="https://assistline11.voip.com.tr/voiptelekom/" target="assistline_voip" class="sys-btn">VOIP TELEKOM ➜</a>
+        <a href="https://crm.assistline.com.tr/" target="assistline_crm_window" class="sys-btn">CRM SİSTEMİ ➜</a>
+        <a href="https://assistline11.voip.com.tr/voiptelekom" target="assistline_voip_window" class="sys-btn">VOIP TELEKOM ➜</a>
     </div>
 
     <div class="glass-card fade-in-up">
@@ -158,15 +150,13 @@
         <h1 class="fade-in-up delay-2">Ruhsat Tipi Sorgulama</h1>
         <p class="desc fade-in-up delay-2">Araç modelini girerek anında sınıflandırma yapın.</p>
         
-        <div class="input-wrapper fade-in-up delay-3">
-            <input type="text" id="queryInp" placeholder="Model ismini buraya yapıştırın" onkeypress="if(event.key === 'Enter') process()">
-        </div>
+        <input type="text" id="queryInp" class="fade-in-up delay-3" placeholder="Model ismini buraya yapıştırın" onkeypress="if(event.key === 'Enter') process()">
         <button onclick="process()" class="fade-in-up delay-3">SORGULA</button>
         
         <div id="display" class="fade-in-up delay-4">Sonucunuz burada gözükecek</div>
 
         <div class="footer-elite fade-in-up delay-4">
-            <span class="v-badge">SİSTEM ALTYAPISI V11.0</span>
+            <span class="v-badge">SİSTEM ALTYAPISI V14.0</span>
             Assistline (AL Servis Destek Hizmetleri A.Ş.) Operasyonel Süreçleri için Mythia® tarafından tasarlandı.<br>
             <strong>Mythia® - Selimcan Burak Arslan 2026</strong><br>
             Tüm Hakları Saklıdır.
@@ -178,44 +168,32 @@
         const categories = ['EXTRA UZUN ŞASE', 'EXTRA UZUN', 'UZUN ŞASE', 'UZUN', 'AĞIR TİCARİ', 'HAFİF TİCARİ', 'MİNİ AĞIR', 'BİNEK'];
 
         const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d', { willReadFrequently: true });
-        const offCanvas = document.createElement('canvas');
-        const offCtx = offCanvas.getContext('2d', { willReadFrequently: true });
-        
+        const ctx = canvas.getContext('2d');
         let particles = [];
-        const pointer = { x: -1000, y: -1000, r: 180 }; 
+        const pointer = { x: -1000, y: -1000, r: 150 }; 
 
         window.addEventListener('mousemove', (e) => { pointer.x = e.clientX; pointer.y = e.clientY; });
-        window.addEventListener('mouseleave', () => { pointer.x = -1000; pointer.y = -1000; });
-        window.addEventListener('resize', initGiantTextAndAmbient);
+        window.addEventListener('resize', initScene);
 
         class Particle {
             constructor(x, y, isAmbient) {
-                this.baseX = x; 
-                this.baseY = y;
-                this.x = x + (Math.random() * 20 - 10); 
-                this.y = y + (Math.random() * 20 - 10);
-                this.vx = 0;
-                this.vy = 0;
+                this.baseX = x; this.baseY = y;
+                this.x = x; this.y = y;
+                this.vx = 0; this.vy = 0;
                 this.isAmbient = isAmbient;
                 
                 if (isAmbient) {
-                    this.size = Math.random() * 2.5 + 1; 
-                    this.opacity = Math.random() * 0.4 + 0.1;
+                    this.size = Math.random() * 2 + 1; 
+                    this.opacity = Math.random() * 0.3 + 0.1;
                     this.friction = 0.99; 
                     this.spring = 0; 
-                    this.shape = Math.random() > 0.5 ? 'circle' : 'prism';
-                    this.angle = Math.random() * Math.PI * 2;
-                    this.spin = (Math.random() - 0.5) * 0.02;
-                    // Ortam parçacıkları için kesintisiz sinematik hız
-                    this.baseVx = (Math.random() - 0.5) * 0.6;
-                    this.baseVy = (Math.random() - 0.5) * 0.6;
+                    this.driftX = (Math.random() - 0.5) * 0.4;
+                    this.driftY = (Math.random() - 0.5) * 0.4;
                 } else {
-                    this.size = Math.random() * 2.2 + 0.8; 
-                    this.opacity = Math.random() * 0.7 + 0.3; // Yazı çok daha belirgin
-                    this.friction = 0.82; // Yüksek sürtünme (hemen durması için)
-                    this.spring = 0.15; // Yüksek yaylanma (şeklini koruması için)
-                    this.shape = 'circle';
+                    this.size = Math.random() * 2 + 0.8; 
+                    this.opacity = Math.random() * 0.5 + 0.4;
+                    this.friction = 0.85; 
+                    this.spring = 0.2; 
                 }
             }
             
@@ -226,26 +204,21 @@
                 
                 if (dist < pointer.r) {
                     let force = (pointer.r - dist) / pointer.r;
-                    // Yazı parçacıkları fareye çok az tepki verir (dikkat dağıtmaz), ortam parçacıkları daha çok kayar
-                    let pushFactor = this.isAmbient ? 6 : 1.5; 
-                    this.vx -= (dx / dist) * force * pushFactor;
-                    this.vy -= (dy / dist) * force * pushFactor;
+                    let push = this.isAmbient ? 5 : 1.2; 
+                    this.vx -= (dx / dist) * force * push;
+                    this.vy -= (dy / dist) * force * push;
                 }
                 
                 if (!this.isAmbient) {
-                    // Yazının şeklini mükemmel koruyan manyetik dönüş
                     this.vx += (this.baseX - this.x) * this.spring;
                     this.vy += (this.baseY - this.y) * this.spring;
                 } else {
-                    // Sinematik, kesintisiz video akışı
-                    this.vx += this.baseVx * 0.05;
-                    this.vy += this.baseVy * 0.05;
-                    this.angle += this.spin;
-                    
-                    if (this.x < -50) this.x = innerWidth + 50;
-                    if (this.x > innerWidth + 50) this.x = -50;
-                    if (this.y < -50) this.y = innerHeight + 50;
-                    if (this.y > innerHeight + 50) this.y = -50;
+                    this.x += this.driftX;
+                    this.y += this.driftY;
+                    if (this.x < 0) this.x = innerWidth;
+                    if (this.x > innerWidth) this.x = 0;
+                    if (this.y < 0) this.y = innerHeight;
+                    if (this.y > innerHeight) this.y = 0;
                 }
                 
                 this.vx *= this.friction;
@@ -256,79 +229,53 @@
             
             draw() {
                 ctx.fillStyle = `rgba(14, 165, 233, ${this.opacity})`;
-                
-                if (this.shape === 'prism') {
-                    ctx.save();
-                    ctx.translate(this.x, this.y);
-                    ctx.rotate(this.angle);
-                    ctx.beginPath();
-                    ctx.moveTo(0, -this.size * 2);
-                    ctx.lineTo(this.size * 1.5, this.size);
-                    ctx.lineTo(-this.size * 1.5, this.size);
-                    ctx.closePath();
-                    ctx.fill();
-                    ctx.restore();
-                } else {
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fill();
-                }
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
             }
         }
 
-        function initGiantTextAndAmbient() {
+        function initScene() {
             canvas.width = innerWidth;
             canvas.height = innerHeight;
-            offCanvas.width = innerWidth;
-            offCanvas.height = innerHeight;
-            
-            offCtx.fillStyle = 'white';
-            let fontSize = Math.min(innerWidth * 0.16, 320); 
-            offCtx.font = `900 ${fontSize}px Inter, sans-serif`;
-            offCtx.textAlign = 'center';
-            offCtx.textBaseline = 'middle';
-            
-            offCtx.fillText('AssistLine', innerWidth / 2, innerHeight / 2);
-            
-            const data = offCtx.getImageData(0, 0, innerWidth, innerHeight).data;
             particles = [];
             
-            let gap = 8; 
+            const off = document.createElement('canvas');
+            const octx = off.getContext('2d');
+            off.width = innerWidth; off.height = innerHeight;
+            octx.fillStyle = 'white';
+            let fs = Math.min(innerWidth * 0.16, 280);
+            octx.font = `900 ${fs}px Inter, sans-serif`;
+            octx.textAlign = 'center'; octx.textBaseline = 'middle';
+            octx.fillText('AssistLine', innerWidth / 2, innerHeight / 2);
+            
+            const data = octx.getImageData(0, 0, innerWidth, innerHeight).data;
+            let gap = innerWidth < 768 ? 12 : 9; 
             for (let y = 0; y < innerHeight; y += gap) {
                 for (let x = 0; x < innerWidth; x += gap) {
-                    const index = (y * innerWidth + x) * 4;
-                    if (data[index + 3] > 128) {
+                    if (data[((y * innerWidth + x) * 4) + 3] > 128) {
                         particles.push(new Particle(x, y, false));
                     }
                 }
             }
-            
-            // Arka planda sürekli akan sinematik parçacıklar
-            for(let i = 0; i < 150; i++) {
-                particles.push(new Particle(Math.random() * innerWidth, Math.random() * innerHeight, true));
-            }
+            for(let i = 0; i < 100; i++) particles.push(new Particle(Math.random()*innerWidth, Math.random()*innerHeight, true));
         }
 
         function loop() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
-            }
+            particles.forEach(p => { p.update(); p.draw(); });
             requestAnimationFrame(loop);
         }
 
-        initGiantTextAndAmbient();
-        loop();
+        initScene(); loop();
 
-        // Çapraz Arama Motoru
         function process() {
             const val = document.getElementById('queryInp').value.trim().toLocaleUpperCase('tr-TR');
             const box = document.getElementById('display');
             box.classList.remove('active-success');
             box.style.color = '#64748b';
 
-            if(!val) { box.innerHTML = "<span class='err-msg'>Lütfen araç modeli girin.</span>"; return; }
+            if(!val) { box.innerHTML = "<span style='color:#e11d48'>Lütfen model girin.</span>"; return; }
             
             const terms = val.split(' ').filter(t => t);
             let match = database.find(i => {
@@ -339,14 +286,11 @@
             if(match) {
                 let resType = "TANIMSIZ";
                 let mU = match.toLocaleUpperCase('tr-TR');
-                for (let c of categories) { 
-                    if (mU.includes(c)) { resType = c; break; } 
-                }
-                
+                for (let c of categories) { if (mU.includes(c)) { resType = c; break; } }
                 box.innerText = resType.charAt(0) + resType.slice(1).toLocaleLowerCase('tr-TR');
                 setTimeout(() => box.classList.add('active-success'), 10);
             } else {
-                box.innerHTML = "<span class='err-msg'>Sistemde kayıt bulunamadı.</span>";
+                box.innerHTML = "<span style='color:#e11d48'>Kayıt bulunamadı.</span>";
             }
         }
     </script>
