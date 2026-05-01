@@ -19,7 +19,7 @@
 
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
 
-        /* APPLE-STYLE GİRİŞ ANİMASYONLARI */
+        /* GİRİŞ ANİMASYONLARI */
         .fade-in-up { opacity: 0; transform: translateY(30px); filter: blur(8px); animation: springUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
         .delay-1 { animation-delay: 0.1s; } .delay-2 { animation-delay: 0.2s; } .delay-3 { animation-delay: 0.3s; }
         .delay-4 { animation-delay: 0.4s; } .delay-5 { animation-delay: 0.5s; }
@@ -145,7 +145,7 @@
         .footer-elite { margin-top: 18px; font-size: 10.5px; color: #64748b; line-height: 1.9; }
         .v-badge { color: #0ea5e9; font-weight: 900; letter-spacing: 1.5px; display: block; margin-bottom: 8px; font-size: 11px; }
 
-        /* ── KONTRAT MODAL (APPLE-VISION PRO STYLE) ── */
+        /* ── KONTRAT MODAL ── */
         #kontrat-modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
@@ -160,7 +160,7 @@
             box-shadow: 0 50px 100px -20px rgba(0,0,0,0.25), inset 0 0 0 1px rgba(255,255,255,0.6);
             width: 95vw; max-width: 1100px; position: relative;
             transform: scale(0.9) translateY(40px); opacity: 0; filter: blur(10px);
-            transition: all 0.7s cubic-bezier(0.32, 0.72, 0, 1); /* Apple Spring Curve */
+            transition: all 0.7s cubic-bezier(0.32, 0.72, 0, 1);
         }
         #kontrat-modal.active .modal-content-card { transform: scale(1) translateY(0); opacity: 1; filter: blur(0); }
 
@@ -269,7 +269,7 @@
         </div>
 
         <div class="footer-elite fade-in-up delay-5">
-            <span class="v-badge">SİSTEM ALTYAPISI V30.9 </span>
+            <span class="v-badge">SİSTEM ALTYAPISI V30.9</span>
             Assistline (AL Servis Destek Hizmetleri A.Ş.) Operasyonel Süreçleri için Mythia® tarafından tasarlandı.
             <strong>Mythia® - Selimcan Burak Arslan 2026</strong>
             Tüm Hakları Saklıdır.
@@ -370,6 +370,7 @@
 
         let seciliKontrat = "";
 
+        // Pythondaki kaçış (escape) sorunlarını kökünden çözen güvenli formüller
         function normMarka(s) { return s.replace(/[iİ]/g,'I').replace(/[ıI]/g,'I').replace(/[ğĞ]/g,'G').replace(/[şŞ]/g,'S').replace(/[çÇ]/g,'C').replace(/[öÖ]/g,'O').replace(/[üÜ]/g,'U').toUpperCase().trim(); }
         function markaTestpit(rowStr) {
             const n = normMarka(rowStr);
@@ -521,9 +522,8 @@
             sonucDiv.classList.remove('fade-in-up'); void sonucDiv.offsetWidth; sonucDiv.classList.add('fade-in-up');
         }
 
-        // Excel'in içindeki gizli "Enter" satır atlamalarını HTML yapısına (<br> veya <div>) dönüştürür.
-        const formatMultiline = (str) => typeof str === 'string' ? str.replace(/\n/g, '<div style="margin-bottom:8px;"></div>').replace(/
-/g, '<div style="margin-bottom:8px;"></div>') : str;
+        // Excel'in içindeki gizli "Enter" satır atlamalarını HTML yapısına dönüştüren güvenli formül
+        const formatMultiline = (str) => typeof str === 'string' ? str.split('\n').join('<div style="margin-bottom:6px;"></div>').split('\\n').join('<div style="margin-bottom:6px;"></div>') : str;
 
         function hesaplaKontrat(durum) {
             if (!seciliKontrat) return;
@@ -587,7 +587,9 @@
                 sHak = "❌ HİZMET HAKKI YOK"; sCekim = "KAPSAM DIŞI"; sKurtarim = "KAPSAM DIŞI"; limitRenkSinifi = "uyari-karti";
             }
 
-            // --- FERDİ KAZA İÇİN KESİN GÜVENLİK DUVARI (ZIRHLI OVERRIDE) ---
+            // -------------------------------------------------------------
+            // FERDİ KAZA İÇİN ZIRHLI KORUMA (TAM KESİNLİK)
+            // -------------------------------------------------------------
             if (tip === "Ferdi Kaza") {
                 if (durum === "Arıza") {
                     sYas = "<div style='margin-bottom:8px;'>0 - 15 Yaş</div><div style='margin-bottom:8px;'>16 - 20 Yaş</div><div style='color:#e11d48;'>21 Yaş ve Üzeri</div>";
@@ -608,7 +610,7 @@
                     limitRenkSinifi = "limit-karti";
                 }
             }
-            // --------------------------------------------------------
+            // -------------------------------------------------------------
 
             const htmlSonuc = `
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; padding-bottom: 15px; border-bottom: 2px dashed rgba(226,232,240,0.8);">
