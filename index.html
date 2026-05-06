@@ -2,243 +2,101 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assistline | Yeni Karargaha Geçiş</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mythia® | Assistline Portal</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+
+        *, *::before, *::after { box-sizing: border-box; }
 
         body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #020617;
+            margin: 0; padding: 0; width: 100%; height: 100%;
             font-family: 'Inter', sans-serif;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            perspective: 1000px;
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; color: #0f172a; overscroll-behavior: none;
         }
 
-        /* UZAY/HIZ EFEKTİ ARKA PLAN */
-        .stars {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: 
-                radial-gradient(2px 2px at 20px 30px, #e2e8f0, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 40px 70px, #ffffff, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 50px 160px, #cbd5e1, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 90px 40px, #ffffff, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0));
-            background-repeat: repeat;
-            background-size: 200px 200px;
-            animation: warpSpeed 4s linear infinite;
-            opacity: 0.3;
-            z-index: 1;
-        }
+        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
 
-        @keyframes warpSpeed {
-            0% { transform: translateY(0) scale(1); opacity: 0; }
-            50% { opacity: 0.5; }
-            100% { transform: translateY(200px) scale(1.5); opacity: 0; }
-        }
+        /* GİRİŞ ANİMASYONLARI */
+        .fade-in-up { opacity: 0; transform: translateY(30px); filter: blur(8px); animation: springUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        .delay-1 { animation-delay: 0.1s; } .delay-2 { animation-delay: 0.2s; } .delay-3 { animation-delay: 0.3s; }
+        @keyframes springUp { to { opacity: 1; transform: translateY(0); filter: blur(0); } }
 
         /* ANA KART */
-        .container {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            background: rgba(15, 23, 42, 0.7);
-            padding: 60px 40px;
-            border-radius: 30px;
-            border: 1px solid rgba(14, 165, 233, 0.3);
-            box-shadow: 0 0 50px rgba(14, 165, 233, 0.1);
-            backdrop-filter: blur(10px);
-            transition: all 0.5s ease;
+        .glass-card {
+            position: relative; z-index: 10; background: rgba(255,255,255,0.65);
+            backdrop-filter: blur(50px) saturate(180%); -webkit-backdrop-filter: blur(50px) saturate(180%);
+            padding: 50px 45px; border-radius: 36px; width: 90%; max-width: 460px;
+            display: flex; flex-direction: column; justify-content: center; text-align: center;
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 40px 80px -20px rgba(0,0,0,0.15), inset 0 0 0 1px rgba(255,255,255,0.6);
+            transition: all 0.6s cubic-bezier(0.16,1,0.3,1);
         }
+        
+        .logo-box img { max-width: 180px; height: auto; mix-blend-mode: multiply; margin-bottom: 25px; }
+        h1 { font-size: 26px; font-weight: 900; margin: 0; color: #0f172a; letter-spacing: -0.5px; }
+        .desc { color: #475569; font-size: 14px; margin: 12px 0 30px 0; line-height: 1.6; font-weight: 600; }
 
-        /* LOGO */
-        .logo {
-            max-width: 300px;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            filter: brightness(0) invert(1) drop-shadow(0 0 10px rgba(255,255,255,0.3));
+        .main-btn {
+            width: 100%; padding: 22px; background: #0f172a; color: #ffffff; border: none; border-radius: 20px; font-weight: 900; font-size: 15px;
+            letter-spacing: 1.5px; cursor: pointer; transition: 0.4s cubic-bezier(0.25, 1, 0.5, 1); font-family: 'Inter', sans-serif;
+            box-shadow: 0 10px 25px -5px rgba(15,23,42,0.4); text-decoration: none; display: inline-block; text-align: center;
         }
+        .main-btn:hover { background: #0ea5e9; transform: translateY(-4px) scale(1.01); box-shadow: 0 20px 35px rgba(14,165,233,0.35); }
+        .main-btn:active { transform: translateY(0) scale(0.97); }
 
-        .title {
-            color: #f8fafc;
-            font-size: 22px;
-            font-weight: 800;
-            margin-bottom: 40px;
-            letter-spacing: 1px;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        .footer-elite { margin-top: 30px; font-size: 10.5px; color: #64748b; line-height: 1.9; }
+        .v-badge { color: #0ea5e9; font-weight: 900; letter-spacing: 1.5px; display: block; margin-bottom: 8px; font-size: 11px; }
+
+        @media (max-width: 768px) {
+            .glass-card { padding: 40px 25px; width: 92%; border-radius: 36px; }
+            h1 { font-size: 22px; }
+            .main-btn { font-size: 14px; padding: 20px; }
         }
-
-        .title span {
-            color: #38bdf8;
-            font-weight: 900;
-        }
-
-        /* NEFES ALAN ŞİŞEN BUTON */
-        .hyper-btn {
-            position: relative;
-            background: linear-gradient(135deg, #0ea5e9, #2563eb);
-            color: white;
-            font-family: 'Inter', sans-serif;
-            font-size: 18px;
-            font-weight: 900;
-            padding: 20px 40px;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.4), inset 0 0 0 2px rgba(255,255,255,0.2);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            outline: none;
-            overflow: hidden;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.7); }
-            70% { box-shadow: 0 0 0 25px rgba(14, 165, 233, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0); }
-        }
-
-        /* ÜZERİNE GELİNCE ŞİŞME EFEKTİ */
-        .hyper-btn:hover {
-            transform: scale(1.15) translateY(-5px);
-            background: linear-gradient(135deg, #38bdf8, #1d4ed8);
-            box-shadow: 0 20px 40px rgba(14, 165, 233, 0.6), inset 0 0 0 2px rgba(255,255,255,0.4);
-            animation: none; 
-        }
-
-        .hyper-btn:active {
-            transform: scale(0.9);
-        }
-
-        /* BUTON PARÇACIKLARI (PATLAMA İÇİN) */
-        .particle {
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            background: #38bdf8;
-            border-radius: 50%;
-            box-shadow: 0 0 20px #0ea5e9, 0 0 40px #fff;
-            pointer-events: none;
-            z-index: 100;
-            animation: explode 0.8s cubic-bezier(0, 1, 1, 1) forwards;
-        }
-
-        @keyframes explode {
-            0% { 
-                transform: translate(0, 0) scale(1.5); 
-                opacity: 1; 
-            }
-            100% { 
-                transform: translate(var(--tx), var(--ty)) scale(0); 
-                opacity: 0; 
-            }
-        }
-
-        /* EKRAN BEYAZLAMA EFEKTİ (IŞINLANMA) */
-        #flash {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: white;
-            z-index: 9999;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-        }
-
     </style>
 </head>
 <body>
+    <canvas id="bg-canvas"></canvas>
 
-    <!-- Uzay arka planı -->
-    <div class="stars"></div>
-    <div class="stars" style="animation-delay: -2s; transform: rotate(90deg);"></div>
-
-    <!-- Işınlanma flaşı -->
-    <div id="flash"></div>
-
-    <div class="container" id="main-container">
-        <!-- Logomuz -->
-        <img src="asissstlinelogo.png" alt="Assistline Logo" class="logo" id="logo" onerror="this.src='https://via.placeholder.com/300x80/0f172a/ffffff?text=ASSISTLINE';">
+    <div class="glass-card fade-in-up">
+        <div class="logo-box fade-in-up delay-1">
+            <img src="asissstlinelogo.png" alt="Assistline Logo" onerror="this.src='https://via.placeholder.com/150x40/ffffff/0f172a?text=ASSISTLINE';">
+        </div>
         
-        <h2 class="title" id="title">Sistemimiz Yeni Bulut Karargahına <span>Taşındı!</span></h2>
-        
-        <!-- Efsane Buton -->
-        <button class="hyper-btn" id="redirect-btn">YENİ SİSTEME GEÇİŞ YAP 🚀</button>
+        <h1 class="fade-in-up delay-2">Sisteme Hoş Geldiniz</h1>
+        <p class="desc fade-in-up delay-2">Daha hızlı ve entegre altyapımızla hizmetinize kesintisiz devam ediyoruz.</p>
+
+        <a href="https://assistai-c145c.web.app/" target="_self" class="main-btn fade-in-up delay-3">
+            SİSTEME ERİŞİM İÇİN TIKLAYINIZ
+        </a>
+
+        <div class="footer-elite fade-in-up delay-3">
+            <span class="v-badge">MYTHIA® WEB PORTAL</span>
+            Assistline Operasyonel Süreçleri için Mythia® tarafından tasarlanmıştır.<br>
+            <strong>Tüm Hakları Saklıdır © 2026</strong>
+        </div>
     </div>
 
     <script>
-        const btn = document.getElementById('redirect-btn');
-        const container = document.getElementById('main-container');
-        const logo = document.getElementById('logo');
-        const title = document.getElementById('title');
-        const flash = document.getElementById('flash');
-
-        btn.addEventListener('click', function(e) {
-            // 1. Patlama Efekti Koordinatlarını Al
-            const rect = btn.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-
-            // 2. Parçacıkları Yarat (70 Adet Siber Mavi Şarapnel)
-            for (let i = 0; i < 70; i++) {
-                let particle = document.createElement('div');
-                particle.className = 'particle';
-                document.body.appendChild(particle);
-
-                // Rastgele yön ve hız
-                let angle = Math.random() * Math.PI * 2;
-                let velocity = Math.random() * 300 + 100; // Ne kadar uzağa uçacakları
-                let tx = Math.cos(angle) * velocity;
-                let ty = Math.sin(angle) * velocity;
-
-                // Parçacığı butonun ortasına koy ve hedef koordinatları ver
-                particle.style.left = centerX + 'px';
-                particle.style.top = centerY + 'px';
-                particle.style.setProperty('--tx', `${tx}px`);
-                particle.style.setProperty('--ty', `${ty}px`);
-                
-                // Rastgele renk tonları
-                if(Math.random() > 0.5) particle.style.background = "#fff";
-
-                // Animasyon bitince temizle
-                setTimeout(() => particle.remove(), 800);
-            }
-
-            // 3. Butonu ve Ekranı Gizle (Görsel Şov)
-            btn.style.transform = 'scale(0)';
-            btn.style.opacity = '0';
-            
-            logo.style.transform = 'scale(1.5) translateY(-50px)';
-            logo.style.opacity = '0';
-            
-            title.style.transform = 'scale(1.2)';
-            title.style.opacity = '0';
-            
-            container.style.background = 'transparent';
-            container.style.boxShadow = 'none';
-            container.style.borderColor = 'transparent';
-
-            // 4. Işınlanma Flaşını Çak
-            setTimeout(() => {
-                flash.style.opacity = '1';
-            }, 300);
-
-            // 5. YENİ SİSTEME IŞINLANMA (0.8 Saniye sonra)
-            setTimeout(() => {
-                window.location.href = "https://assistai-c145c.web.app/";
-            }, 800);
-        });
+        // Arka Plan Animasyonu (Tasarım tamamen korundu)
+        const canvas = document.getElementById('bg-canvas'); const ctx = canvas.getContext('2d', {willReadFrequently: true});
+        let textParticles=[], ambientParticles=[], prismParticles=[]; const pointer = {x:-1000, y:-1000, r:250};
+        window.addEventListener('mousemove', e => { pointer.x=e.clientX; pointer.y=e.clientY; }); 
+        window.addEventListener('touchmove', e => { pointer.x=e.touches[0].clientX; pointer.y=e.touches[0].clientY; }); 
+        window.addEventListener('mouseleave', () => { pointer.x=-1000; pointer.y=-1000; }); 
+        window.addEventListener('touchend', () => { pointer.x=-1000; pointer.y=-1000; }); 
+        window.addEventListener('resize', initScene);
+        
+        class TextParticle { constructor(x,y) { this.baseX=x; this.baseY=y; this.x=Math.random()*innerWidth; this.y=Math.random()*innerHeight; this.vx=(Math.random()-0.5)*15; this.vy=(Math.random()-0.5)*15; this.size=Math.random()*2+1; this.opacity=Math.random()*0.7+0.3; this.friction=0.88; this.spring=Math.random()*0.05+0.05; } update() { let dx=pointer.x-this.x, dy=pointer.y-this.y, dist=Math.sqrt(dx*dx+dy*dy); if(dist<pointer.r){ let f=(pointer.r-dist)/pointer.r; this.vx-=(dx/dist)*f*5; this.vy-=(dy/dist)*f*5; } this.vx+=(this.baseX-this.x)*this.spring; this.vy+=(this.baseY-this.y)*this.spring; this.vx*=this.friction; this.vy*=this.friction; this.x+=this.vx; this.y+=this.vy; } draw() { ctx.fillStyle=`rgba(14,165,233,${this.opacity})`; ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fill(); } }
+        class AmbientParticle { constructor() { this.x=Math.random()*innerWidth; this.y=Math.random()*innerHeight; this.vx=(Math.random()-0.5)*1.5; this.vy=(Math.random()-0.5)*1.5; this.size=Math.random()*2.5+1; } update() { let dx=pointer.x-this.x,dy=pointer.y-this.y,dist=Math.sqrt(dx*dx+dy*dy); if(dist<pointer.r){let f=(pointer.r-dist)/pointer.r;this.vx-=(dx/dist)*f*2;this.vy-=(dy/dist)*f*2;} this.x+=this.vx; this.y+=this.vy; if(this.vx>2)this.vx=2; if(this.vx<-2)this.vx=-2; if(this.vy>2)this.vy=2; if(this.vy<-2)this.vy=-2; if(this.x<0||this.x>innerWidth)this.vx*=-1; if(this.y<0||this.y>innerHeight)this.vy*=-1; } draw() { ctx.fillStyle='rgba(56,189,248,0.5)'; ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fill(); } }
+        class PrismParticle { constructor() { this.x=Math.random()*innerWidth; this.y=Math.random()*innerHeight; this.vx=(Math.random()-0.5)*2.5; this.vy=(Math.random()-0.5)*2.5; this.size=Math.random()*8+4; this.angle=Math.random()*Math.PI*2; this.spin=(Math.random()-0.5)*0.08; } update() { let dx=pointer.x-this.x,dy=pointer.y-this.y,dist=Math.sqrt(dx*dx+dy*dy); if(dist<pointer.r){let f=(pointer.r-dist)/pointer.r;this.vx-=(dx/dist)*f*4;this.vy-=(dy/dist)*f*4;} this.x+=this.vx; this.y+=this.vy; this.angle+=this.spin; if(this.vx>3)this.vx=3; if(this.vx<-3)this.vx=-3; if(this.vy>3)this.vy=3; if(this.vy<-3)this.vy=-3; if(this.x<-100||this.x>innerWidth+100)this.vx*=-1; if(this.y<-100||this.y>innerHeight+100)this.vy*=-1; } draw() { ctx.save(); ctx.translate(this.x,this.y); ctx.rotate(this.angle); ctx.fillStyle='rgba(14,165,233,0.3)'; ctx.beginPath(); ctx.moveTo(0,-this.size); ctx.lineTo(this.size,this.size); ctx.lineTo(-this.size,this.size); ctx.closePath(); ctx.fill(); ctx.restore(); } }
+        
+        function initScene() { canvas.width=innerWidth; canvas.height=innerHeight; textParticles=[]; ambientParticles=[]; prismParticles=[]; const off=document.createElement('canvas'); const octx=off.getContext('2d',{willReadFrequently:true}); off.width=innerWidth; off.height=innerHeight; octx.fillStyle='white'; let fs=innerWidth<768?innerWidth*0.18:Math.min(innerWidth*0.15,300); octx.font=`900 ${fs}px Inter, sans-serif`; let tw=octx.measureText('AssistLine').width; if(tw>innerWidth*0.9){ fs=fs*((innerWidth*0.9)/tw); octx.font=`900 ${fs}px Inter, sans-serif`; } octx.textAlign='center'; octx.textBaseline='middle'; octx.fillText('AssistLine',innerWidth/2,innerHeight/2); const data=octx.getImageData(0,0,innerWidth,innerHeight).data; let valid=[]; let gap=innerWidth<768?5:4; for(let y=0;y<innerHeight;y+=gap) for(let x=0;x<innerWidth;x+=gap) if(data[((y*innerWidth+x)*4)+3]>128) valid.push({x,y}); valid.sort(()=>Math.random()-0.5); let max=Math.min(4000,valid.length); for(let i=0;i<max;i++) textParticles.push(new TextParticle(valid[i].x,valid[i].y)); let ac=innerWidth<768?50:120, pc=innerWidth<768?15:40; for(let i=0;i<ac;i++) ambientParticles.push(new AmbientParticle()); for(let i=0;i<pc;i++) prismParticles.push(new PrismParticle()); }
+        function drawNetwork() { for(let i=0;i<ambientParticles.length;i++) for(let j=i+1;j<ambientParticles.length;j++) { let dx=ambientParticles[i].x-ambientParticles[j].x, dy=ambientParticles[i].y-ambientParticles[j].y; let dist=Math.sqrt(dx*dx+dy*dy); if(dist<120){ ctx.beginPath(); ctx.strokeStyle=`rgba(56,189,248,${0.2-dist/600})`; ctx.lineWidth=1; ctx.moveTo(ambientParticles[i].x,ambientParticles[i].y); ctx.lineTo(ambientParticles[j].x,ambientParticles[j].y); ctx.stroke(); } } }
+        function loop() { ctx.clearRect(0,0,canvas.width,canvas.height); drawNetwork(); ambientParticles.forEach(p=>{p.update();p.draw();}); prismParticles.forEach(p=>{p.update();p.draw();}); textParticles.forEach(p=>{p.update();p.draw();}); requestAnimationFrame(loop); }
+        document.fonts.ready.then(()=>{ initScene(); loop(); });
     </script>
 </body>
 </html>
